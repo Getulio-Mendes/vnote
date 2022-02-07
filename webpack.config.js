@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: './src/renderer.js',
+  mode:"development",
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -23,6 +24,13 @@ const config = {
         ]
       }
     ]
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 3000,
   }
 };
 
