@@ -5,9 +5,9 @@
 // selectively enable features needed in the rendering
 // process.
 
-var list = window.sqlite.all("SELECT * FROM test");
-list.forEach(i => {
-  let div = document.createElement("div");
-  div.innerHTML = JSON.stringify(i);
-  document.body.appendChild(div);
-})
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+
+var root = document.getElementById("app");
+ReactDOM.render(<App/>,root);
