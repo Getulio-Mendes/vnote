@@ -1,4 +1,6 @@
 import React from "react";
+import trash from "./img/trash.svg";
+import options from "./img/more-horizontal.svg";
 
 class Note extends React.Component{
     constructor(props){
@@ -6,9 +8,10 @@ class Note extends React.Component{
     }
     render() {
         return (
-            <div className="note">
-                {this.props.text}
-                <span onClick={() => this.props.deleteNote(this.props.id)}>D</span>
+            <div className="note" onClick={() => this.props.getText(this.props.id)}>
+                <img src={options} className="icon" onClick={() => console.log("Option")}></img>
+                {this.props.title}
+                <img src={trash} className="icon" onClick={() => this.props.deleteNote(this.props.id)}></img>
             </div>
         )
     }
