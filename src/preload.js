@@ -5,7 +5,7 @@ const db = new sqlite("test.db",{ verbose: console.log });
 var stmt = db.prepare(`CREATE TABLE IF NOT EXISTS test 
                      (id INTEGER PRIMARY KEY NOT NULL,
                       title TEXT NOT NULL DEFAULT 'New Note',
-                      text TEXT DEFAULT '',
+                      text TEXT DEFAULT 'Note Content',
                       date DATE DEFAULT (DATETIME('now','localtime'))
                       )`)
 stmt.run();

@@ -8,9 +8,11 @@ class Note extends React.Component{
     }
     render() {
         return (
-            <div className="note" onClick={() => this.props.getText(this.props.id)}>
+            <div className="note">
                 <img src={options} className="icon" onClick={() => console.log("Option")}></img>
-                {this.props.title}
+
+                <span onClick={() => this.props.getText(this.props.id)}>{this.props.title}</span>
+
                 <img src={trash} className="icon" onClick={() => this.props.deleteNote(this.props.id)}></img>
             </div>
         )

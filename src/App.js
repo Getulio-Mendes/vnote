@@ -1,6 +1,7 @@
 import React from "react";
 import Note from "./Note"
 import Form from "./Form";
+import Editor from "./Quill";
 import './styles.css';
 
 class App extends React.Component{
@@ -9,7 +10,7 @@ class App extends React.Component{
         var nodes = window.sqlite.all("SELECT COUNT(id) FROM test");
         this.state= { 
             nodes: nodes,
-            text: "Note content"
+            text: "Note Content"
         };
 
         this.deleteNote = this.deleteNote.bind(this);
@@ -35,7 +36,13 @@ class App extends React.Component{
     }
     getText(id){
        let text = window.sqlite.get("SELECT text FROM test WHERE id = ?",id);
-       this.setState({text:text.text}); 
+       if(this.state.text == text.text){
+           // enforce editor update even whem the content is the same
+           this.setState({ text: text.text + ' ' }); 
+       }
+       else{
+           this.setState({ text: text.text}); 
+       }
     }
     deleteNote(id){
         window.sqlite.run(`DELETE FROM test WHERE id = ${id}`);
@@ -44,13 +51,14 @@ class App extends React.Component{
     
     render() {
         var list = window.sqlite.all("SELECT * FROM test");
+        console.log(list);
         var Nodes = this.createElements(list);
         return (
             <>
                 <h3>Current Notes:</h3>
                 <div className="noteList">{Nodes}</div>
                 <Form createNote={this.createNote}></Form>
-                <textarea value={this.state.text}></textarea>
+                <Editor text={this.state.text}></Editor>
             </>
         )
     }
