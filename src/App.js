@@ -1,21 +1,23 @@
 import React from "react";
 import Note from "./Note"
 import Form from "./Form";
-import Editor from "./Quill";
+import Editor from "./Editor";
 import './styles.css';
 
 class App extends React.Component{
     constructor(props){
         super(props);
-        var nodes = window.sqlite.all("SELECT COUNT(id) FROM test");
+        var nodesCount = window.sqlite.all("SELECT COUNT(id) FROM test");
         this.state= { 
-            nodes: nodes,
-            text: "Note Content"
+            nodes: nodesCount,
+            text: "Note Content",
+            id: 0
         };
 
         this.deleteNote = this.deleteNote.bind(this);
         this.createNote = this.createNote.bind(this);
         this.getText = this.getText.bind(this);
+        this.updateNote = this.updateNote.bind(this);
     }
     createElements(list) {
         var newList = [];
@@ -41,24 +43,25 @@ class App extends React.Component{
            this.setState({ text: text.text + ' ' }); 
        }
        else{
-           this.setState({ text: text.text}); 
+           this.setState({text: text.text,id:id}); 
        }
+    }
+    updateNote(content){
+        window.sqlite.update("UPDATE test SET text = ? WHERE id=?",content,this.state.id);
     }
     deleteNote(id){
         window.sqlite.run(`DELETE FROM test WHERE id = ${id}`);
         this.setState({ nodes: this.state.nodes - 1 });
     }
-    
+
     render() {
         var list = window.sqlite.all("SELECT * FROM test");
-        console.log(list);
         var Nodes = this.createElements(list);
         return (
             <>
-                <h3>Current Notes:</h3>
                 <div className="noteList">{Nodes}</div>
                 <Form createNote={this.createNote}></Form>
-                <Editor text={this.state.text}></Editor>
+                <Editor text={this.state.text} updateNote={this.updateNote}></Editor>
             </>
         )
     }

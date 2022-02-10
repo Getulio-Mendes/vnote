@@ -22,11 +22,11 @@ contextBridge.exposeInMainWorld('sqlite',{
       return stmt.all();
     }
   },
-  run(str,value){
+  run(str,value1){
     let stmt = db.prepare(str);
 
-    if (value != null) {
-      return stmt.run(value);
+    if (value1 != null) {
+      return stmt.run(value1);
     }
     else{
       return stmt.run();
@@ -41,5 +41,15 @@ contextBridge.exposeInMainWorld('sqlite',{
     else{
       return stmt.get();
     }
-  }
+  },
+  update(str,content,id){
+    let stmt = db.prepare(str);
+
+    if (content != null && id != null) {
+      return stmt.run(content,id);
+    }
+    else{
+      return stmt.run();
+    }
+  },
 });
