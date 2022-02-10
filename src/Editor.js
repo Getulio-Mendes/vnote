@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
+import "./Editor.css";
 
 var timer = 0;
 
 function Editor(props) {
-  const [value, setValue] = useState(props.text);
+  const [value, setValue] = useState(props.content);
 
   useEffect(() => {
-    setValue(props.text);
-  },[props.text])
+    setValue(props.content);
+  },[props.content])
+
+  var modules = {
+    toolbar: [
+      [{ 'header': 1 }],[{ 'header': 2 }],
+      ['bold', 'italic', 'blockquote'],
+      [{ 'list': 'bullet' }],
+      ['link'],
+    ]
+  }
 
   function handleChange(content){
     setValue(content);
@@ -18,13 +28,13 @@ function Editor(props) {
     if(timer != -1){
       clearTimeout(timer);
       timer = setTimeout(() => {
-        props.updateNote(content);
+        props.updateContent(content,props.id);
       },500) 
     }
   }
 
   return (
-    <ReactQuill theme="snow" value={value} onChange={handleChange}/>
+    <ReactQuill theme="bubble" value={value} onChange={handleChange} modules={modules} />
   );
 }
 

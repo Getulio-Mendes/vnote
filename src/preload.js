@@ -12,44 +12,28 @@ stmt.run();
 
 
 contextBridge.exposeInMainWorld('sqlite',{
-  all(str,value){
+  all(str){
     let stmt = db.prepare(str);
-
-    if(value != null){
-      return stmt.all(value);
-    }
-    else{
-      return stmt.all();
-    }
+    return stmt.all();
   },
-  run(str,value1){
-    let stmt = db.prepare(str);
-
-    if (value1 != null) {
-      return stmt.run(value1);
-    }
-    else{
-      return stmt.run();
-    }
+  createNote(title) {
+    let stmt = db.prepare("INSERT INTO test (title) VALUES (?)");
+    return stmt.run(title);
   },
-  get(str, value) {
-    let stmt = db.prepare(str);
-
-    if (value != null) {
-      return stmt.get(value);
-    }
-    else{
-      return stmt.get();
-    }
+  getNote(id) {
+    let stmt = db.prepare("SELECT text,title FROM test WHERE id = ?");
+    return stmt.get(id);
   },
-  update(str,content,id){
-    let stmt = db.prepare(str);
-
-    if (content != null && id != null) {
-      return stmt.run(content,id);
-    }
-    else{
-      return stmt.run();
-    }
+  deleteNote(id){
+    let stmt = db.prepare("DELETE FROM test WHERE id=?");
+    return stmt.run(id);
   },
+  updateContent(content,id){
+    let stmt = db.prepare("UPDATE test SET text = ? WHERE id=?");
+    return stmt.run(content, id);
+  },
+  updateTitle(title,id){
+    let stmt = db.prepare("UPDATE test SET title = ? WHERE id=?");
+    return stmt.run(title, id);
+  }
 });

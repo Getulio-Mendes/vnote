@@ -13,7 +13,7 @@ class Note extends React.Component{
     }
     render() {
         return (
-            <div className="note" onClick={() => this.props.getText(this.props.id)}>
+            <div className="note" onClick={() => this.props.getNote(this.props.id)}>
                 <img src={options} className="icon" onClick={() => console.log("Option")}></img>
 
                 <span>{this.props.title}</span>
