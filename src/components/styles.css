@@ -30,6 +30,13 @@
     display: flex;
     justify-content: space-between;
 }
+span{
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+}
 
 .icon{
     width: 1rem;

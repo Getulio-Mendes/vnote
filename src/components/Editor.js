@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import "./Editor.css";
 
-var timer = 0;
 
 function Editor(props) {
   const [value, setValue] = useState(props.content);
+  const timer = useRef(0);
 
-  useEffect(() => {
-    setValue(props.content);
-  },[props.content])
-
-  var modules = {
+  const modules = {
     toolbar: [
       [{ 'header': 1 }],[{ 'header': 2 }],
       ['bold', 'italic', 'blockquote'],
@@ -21,13 +17,18 @@ function Editor(props) {
     ]
   }
 
+  useEffect(() => {
+    setValue(props.content);
+
+  }, [props.content])
+
   function handleChange(content){
     setValue(content);
 
     // only update when last key is pressed
-    if(timer != -1){
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+    if(timer.current != -1){
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
         props.updateContent(content,props.id);
       },500) 
     }
