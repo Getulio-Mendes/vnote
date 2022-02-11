@@ -2,6 +2,7 @@ import React from "react";
 import Note from "./components/Note"
 import Form from "./components/Form";
 import Editor from "./components/Editor";
+import Search from "./components/Search";
 import './components/styles.css';
 
 class App extends React.Component{
@@ -22,6 +23,7 @@ class App extends React.Component{
         this.getNote = this.getNote.bind(this);
         this.getDir = this.getDir.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.search = this.search.bind(this);
         this.updateContent = this.updateContent.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
     }
@@ -75,21 +77,29 @@ class App extends React.Component{
         window.sqlite.deleteNote(id);
         this.setState({ nodes: this.state.nodes - 1 });
     }
+    search(query){
+        let list = window.sqlite.search(query);
+        return list;
+    }
 
     render() {
         let dir = this.state.dir.split('/');
         var list = window.sqlite.all("SELECT * FROM test WHERE dir = ?",dir[dir.length -1]);
         return (
             <>
+                <Search search={this.search}></Search>
                 <div className="noteList">
                     {list.map((note) => {
                        return <Note key={note.id} id={note.id} title={note.title} folder={note.folder}
                               deleteNote={this.deleteNote} getNote={this.getNote} getDir={this.getDir}/>
                     })}
                 </div>
-                <button onClick={this.createNote}>Create Note</button>
-                <button onClick={this.createFolder}>Create Folder</button>
-                <button onClick={this.goBack}>Go back</button>
+
+                <div id="actions">
+                    <button onClick={this.createNote}>Create Note</button>
+                    <button onClick={this.createFolder}>Create Folder</button>
+                    <button onClick={this.goBack}>Go back</button>
+                </div>
                 {this.state.id != 0 && 
                     <>
                         <Form title={this.state.title} id={this.state.id} updateTitle={this.updateTitle}></Form>

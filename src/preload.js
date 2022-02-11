@@ -29,6 +29,11 @@ contextBridge.exposeInMainWorld('sqlite',{
     let stmt = db.prepare("SELECT text,title FROM test WHERE id = ?");
     return stmt.get(id);
   },
+  search(query){
+    query = '%' + query + '%';
+    let stmt = db.prepare("SELECT title FROM test WHERE title LIKE ?");
+    return stmt.all(query);
+  },
   deleteNote(id){
     let stmt = db.prepare("DELETE FROM test WHERE id=?");
     return stmt.run(id);

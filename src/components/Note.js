@@ -10,15 +10,18 @@ function Note(props){
     }
 
     let clickHandler;
-    if (props.folder == true) {
+    let className;
+    if (props.folder) {
         clickHandler = () => props.getDir(props.id);
+        className = "folder"
     }
     else {
         clickHandler = () => props.getNote(props.id);
+        className = "note"
     }
 
     return (
-        <div className="note" onClick={clickHandler}>
+        <div className={className} onClick={clickHandler}>
             <img src={options} className="icon" onClick={() => console.log("Option")}></img>
 
             <span>{props.title}</span>

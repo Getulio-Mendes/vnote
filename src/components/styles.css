@@ -1,19 +1,31 @@
 *{
     box-sizing: border-box;
+    border-radius: 6px;
 }
+
+body{
+    background-color: #333;
+}
+
+#root{
+    max-width: 800px;
+    margin: auto;
+}
+
 .noteList{
-    background-color: #444;
+    background-color: #666;
     color: white;
     padding-left: 10px;
     padding-right: 10px;
-    border-radius: 6px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(7rem,1fr));
     grid-gap: 0px 10px;
 }
 
-.note{
+.note, .folder{
     background-color: bisque;
     color:black;
     border: 1px black solid;
@@ -25,13 +37,16 @@
 
     margin-top: 10px;
     margin-bottom: 10px;
-    border-radius: 6px;
 
     display: flex;
     justify-content: space-between;
 }
-span{
 
+.folder{
+    border: 1px solid red;
+}
+
+span{
     overflow: hidden;
     text-overflow: ellipsis;
     line-clamp: 2;
@@ -46,6 +61,54 @@ span{
     margin-right: 3px;
 }
 
-button{
-    display: block;
+#actions{
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+    background-color: #444;
+}
+#actions button{
+    background-color: antiquewhite;
+    border: none;
+
+    min-width: 5rem;
+    min-height: 2rem;
+    max-width: 200px;
+    max-height: 80px;
+    margin: 6px;
+}
+
+#searchBar{
+    background-color: antiquewhite;
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 2rem;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#searchField{
+    background-color: antiquewhite;
+    border-bottom-right-radius: 6px;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    height: 2rem;
+}
+
+#search{
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.searchResult{
+    background-color: antiquewhite;
+    width: 100%;
+    height: 1rem;
+    border-radius: 0;
 }

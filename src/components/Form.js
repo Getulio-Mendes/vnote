@@ -23,7 +23,7 @@ function Form(props) {
 
     return (
         <>
-            <input onChange={handleChange} value={text}></input>
+            <input id="title" onChange={handleChange} value={text}></input>
         </>
     )
 }
