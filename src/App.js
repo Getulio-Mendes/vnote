@@ -87,7 +87,7 @@ class App extends React.Component{
         var list = window.sqlite.all("SELECT * FROM test WHERE dir = ?",dir[dir.length -1]);
         return (
             <>
-                <Search search={this.search}></Search>
+                <Search search={this.search} getNote={this.getNote}/>
                 <div className="noteList">
                     {list.map((note) => {
                        return <Note key={note.id} id={note.id} title={note.title} folder={note.folder}

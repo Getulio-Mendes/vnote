@@ -26,6 +26,11 @@ function Search(props){
         }
     }
 
+    function handleClick(id){
+        props.getNote(id);
+        setUp(false);
+    }
+
 
     return (
         <>
@@ -33,9 +38,13 @@ function Search(props){
             <img src={search} id="search"></img>
             <input value={query} onChange={handleChange} id="searchField" placeholder="Seach a note..."></input>
         </div>
+        <div id="searchContainer">
         {up && queryResult.current.map((item, i) => {
-                    return <div key={i} className="searchResult">{item.title}</div>
+                    return <div key={i} className="searchResult" onClick={() => handleClick(item.id)}>
+                            {item.title}
+                            </div>
                 })}
+        </div>
         </>
     )
 }
