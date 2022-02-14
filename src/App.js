@@ -3,6 +3,7 @@ import Note from "./components/Note"
 import Form from "./components/Form";
 import Editor from "./components/Editor";
 import Search from "./components/Search";
+import Map from "./components/Map";
 import './components/styles.css';
 
 class App extends React.Component{
@@ -14,7 +15,8 @@ class App extends React.Component{
             dir: "0",
             content: "Note Content",
             id: 0,
-            title: "New Note"
+            title: "New Note",
+            map: false
         };
 
         this.deleteNote = this.deleteNote.bind(this);
@@ -26,7 +28,13 @@ class App extends React.Component{
         this.search = this.search.bind(this);
         this.updateContent = this.updateContent.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
+        this.actvateMap = this.actvateMap.bind(this);
     }
+
+    actvateMap(){
+        this.setState({map:!this.state.map});
+    }
+
     createNote() {
         let dir = this.state.dir.split('/');
         window.sqlite.createNote("New Note",dir[dir.length-1]);
@@ -88,17 +96,23 @@ class App extends React.Component{
         return (
             <>
                 <Search search={this.search} getNote={this.getNote}/>
+                {!this.state.map &&
                 <div className="noteList">
                     {list.map((note) => {
                        return <Note key={note.id} id={note.id} title={note.title} folder={note.folder}
                               deleteNote={this.deleteNote} getNote={this.getNote} getDir={this.getDir}/>
                     })}
                 </div>
+                }
 
+                {this.state.map && 
+                    <Map/>
+                }
                 <div id="actions">
                     <button onClick={this.createNote}>Create Note</button>
                     <button onClick={this.createFolder}>Create Folder</button>
                     <button onClick={this.goBack}>Go back</button>
+                    <button onClick={this.actvateMap}>Map</button>
                 </div>
                 {this.state.id != 0 && 
                     <>
