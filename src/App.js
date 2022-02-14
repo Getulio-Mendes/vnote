@@ -106,7 +106,7 @@ class App extends React.Component{
                 }
 
                 {this.state.map && 
-                    <Map/>
+                    <Map getNote={this.getNote}/>
                 }
                 <div id="actions">
                     <button onClick={this.createNote}>Create Note</button>
