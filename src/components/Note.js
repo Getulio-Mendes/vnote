@@ -4,15 +4,20 @@ import options from "../img/more-horizontal.svg";
 
 function Note(props){
     
-    function deleteNote(e){
+    function deleteNode(e){
         e.stopPropagation();
-        props.deleteNote(props.id);
+        if(props.folder == false){
+            props.deleteNote(props.id);
+        }
+        else{
+            props.deleteFolder(props.id);
+        } 
     }
 
     let clickHandler;
     let className;
     if (props.folder) {
-        clickHandler = () => props.getDir(props.id);
+        clickHandler = () => props.getDir(props.id,props.title);
         className = "folder"
     }
     else {
@@ -26,7 +31,7 @@ function Note(props){
 
             <span>{props.title}</span>
 
-            <img src={trash} className="icon" onClick={deleteNote}></img>
+            <img src={trash} className="icon" onClick={deleteNode}></img>
         </div>
     )
 }

@@ -7,7 +7,7 @@ var stmt = db.prepare(`CREATE TABLE IF NOT EXISTS test(
                       title TEXT NOT NULL DEFAULT 'New Note',
                       text TEXT DEFAULT 'Note Content',
                       date DATE DEFAULT (DATETIME('now','localtime')),
-                      dir INTEGER DEFAULT 0,
+                      dir TEXT DEFAULT '0',
                       folder BOOLEAN DEFAULT false
                       )`)
 stmt.run();
@@ -29,6 +29,29 @@ contextBridge.exposeInMainWorld('sqlite',{
     let stmt = db.prepare("SELECT text,title FROM test WHERE id = ?");
     return stmt.get(id);
   },
+  getMap(){
+    // make a transaction
+    let stmt = db.prepare("SELECT title,id,dir FROM test");
+    const nodes = stmt.all();
+    stmt = db.prepare("SELECT id FROM test WHERE folder = 1");
+    const sources = stmt.all();
+
+    var links = [];
+
+    nodes.forEach((node) => {
+      sources.forEach((folder) => {
+        lastDir = node.dir.split('/');
+        lastDir = lastDir[lastDir.length - 1];
+
+        if(lastDir == folder.id){
+          links.push({source:folder.id,target:node.id});
+        }
+      })
+    })
+
+    return {links,nodes};
+
+  },
   search(query){
     query = '%' + query + '%';
     let stmt = db.prepare("SELECT title,id FROM test WHERE title LIKE ?");
@@ -37,6 +60,11 @@ contextBridge.exposeInMainWorld('sqlite',{
   deleteNote(id){
     let stmt = db.prepare("DELETE FROM test WHERE id=?");
     return stmt.run(id);
+  },
+  deleteFolder(id){
+    let stmt = db.prepare("DELETE FROM test WHERE id=? OR dir LIKE ?")
+    let regx = "%"+ id + "%";
+    return stmt.run(id,regx);
   },
   updateContent(content,id){
     let stmt = db.prepare("UPDATE test SET text = ? WHERE id=?");

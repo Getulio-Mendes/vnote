@@ -13,9 +13,9 @@ function d3Render(svgRef,data,getNote){
                     .selectAll("text")
                     .data(data.nodes)
                     .enter()
-                    .append("text").text(node => node.name)
+                    .append("text").text(node => node.title)
                         .attr("font-size", 15)
-                        .attr("dx", node => -1 *(node.name.length / 2 + 18))
+                        .attr("dx", node => -1 *(node.title.length / 2 + 18))
                         .attr("dy", 25)
 
     const links = svg.append('g')

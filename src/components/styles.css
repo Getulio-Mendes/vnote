@@ -17,8 +17,7 @@ body{
     color: white;
     padding-left: 10px;
     padding-right: 10px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-radius: 0;
     
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(7rem,1fr));
@@ -135,4 +134,15 @@ span{
     border-radius: 0;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
+}
+
+#Path{
+    background-color: antiquewhite;
+    border-radius: 2px;
+    font-size: medium;
+    font-family: sans-serif;
+}
+
+svg{
+    border-radius: 0;
 }
