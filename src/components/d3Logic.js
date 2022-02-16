@@ -1,44 +1,62 @@
+import { node } from "webpack";
+
+var rendered = false;
+
+function resize(svgRef){
+    const width = document.getElementById("root").offsetWidth;
+
+    d3.select(svgRef.current).attr("width",width);
+}
+
 function d3Render(svgRef,data,getNote){
 
     const height = 300;
-    const width = window.innerWidth - 20;
+    const width = document.getElementById("root").offsetWidth;
+
+    window.addEventListener("resize",() => resize(svgRef));
 
     // Select the svg and set the dimentions
     const svg = d3.select(svgRef.current).style("background-color","white")
                                          .attr("width",width)
                                          .attr("height",height);
-
+    // clear if rendered
+    if(rendered == true){
+        svg.selectAll('*').remove();
+    }
     // Select the elements and match to data 
-    const text = svg.append("g")
-                    .selectAll("text")
-                    .data(data.nodes)
-                    .enter()
-                    .append("text").text(node => node.title)
-                        .attr("font-size", 15)
-                        .attr("dx", node => -1 *(node.title.length / 2 + 18))
-                        .attr("dy", 25)
-
     const links = svg.append('g')
                             .selectAll("line")
                             .data(data.links)
                             .enter().append('line')
                             .attr("stroke-width", 2)
-                            .attr("stroke", "#000")
+                            .attr("stroke", "#aaa");
+
+    const text = svg.append("g")
+                    .selectAll("text")
+                    .data(data.nodes)
+                    .enter()
+                    .append("text").text(node => node.title)
+                        .attr("font-size", 13)
+                        .attr("font-family", "sans-serif")
+                        .attr("text-anchor","middle")
+                        .attr("dy",25);
 
     const nodes = svg.append('g')
                      .selectAll('circle')
                      .data(data.nodes)
                      .enter().append("circle")
+                             .attr("class","node")
                              .attr("r", 10)
                              .attr("fill", "#000")
                              .attr("id",(node) => node.id);
 
     // create the link force based on the id of the nodes
-    const linkForce = d3.forceLink().id(link => link.id).strength(0.1);
+    const linkForce = d3.forceLink().id(link => link.id).strength(0.05);
     // define the force simulation 
     const simulation = d3.forceSimulation()
                         .force("link",linkForce)
-                        .force("charge", d3.forceManyBody())
+                        .force("collision",d3.forceCollide().radius((node) => node.r))
+                        .force("charge", d3.forceManyBody().distanceMax(500).strength(-20))
                         .force("center", d3.forceCenter(width/2,height/2))
 
     // set the simalation to the data
@@ -78,6 +96,23 @@ function d3Render(svgRef,data,getNote){
     nodes.on('mouseover', selectedColors);
     nodes.on('mouseout', normalColors);
     nodes.on('click', (e) => {getNote(e.target.__data__.id)});
+
+    d3.drag().subject(nodes).on("start",started);
+    function started(event) {
+        const circle = d3.select(this).classed("dragging", true);
+
+        event.on("drag", dragged).on("end", ended);
+
+        function dragged(event, d) {
+            circle.raise().attr("cx", d.x = event.x).attr("cy", d.y = event.y);
+        }
+
+        function ended() {
+            circle.classed("dragging", false);
+        }
+    }
+
+    rendered = true;
 }
 
 export default d3Render;

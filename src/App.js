@@ -10,9 +10,8 @@ import './components/styles.css';
 class App extends React.Component{
     constructor(props){
         super(props);
-        var nodesCount = window.sqlite.all("SELECT COUNT(id) FROM test WHERE dir = ?",'0');
         this.state= { 
-            nodes: nodesCount,
+            nodes: 0,
             dir: "0",
             path: ":",
             content: "Note Content",
@@ -122,7 +121,7 @@ class App extends React.Component{
                 }
 
                 {this.state.map && 
-                    <Map getNote={this.getNote} getMap={this.getMap}/>
+                    <Map getNote={this.getNote} getMap={this.getMap} nodeCount={this.state.nodes}/>
                 }
 
                 <Actions createFolder={this.createFolder} createNote={this.createNote}
