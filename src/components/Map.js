@@ -9,8 +9,8 @@ function Map(props){
     
     useEffect(() => {
         let data = props.getMap();
-        svgPlanning(svgRef);
         d3Render(svgRef, data, props.getNote);
+        svgPlanning(svgRef);
 
     },[props.nodeCount])
 

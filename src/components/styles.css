@@ -30,7 +30,7 @@ body{
     color:black;
     border: 1px black solid;
 
-    min-width: 7rem;
+    min-width: 8rem;
     min-height: 2.5rem;
     max-width: 250px;
     max-height: 100px;
@@ -48,9 +48,8 @@ body{
 
 span{
     overflow: hidden;
+    text-align: center;
     text-overflow: ellipsis;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
 }
 
 .icon{
@@ -151,4 +150,8 @@ svg{
 
 .node{
     cursor: pointer;
+}
+
+.dragging{
+    fill: aqua;
 }

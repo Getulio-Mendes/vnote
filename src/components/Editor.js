@@ -19,7 +19,6 @@ function Editor(props) {
 
   useEffect(() => {
     setValue(props.content);
-
   }, [props.content])
 
   function handleChange(content){

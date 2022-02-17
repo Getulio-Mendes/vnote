@@ -1,5 +1,3 @@
-import { node } from "webpack";
-
 var rendered = false;
 
 function resize(svgRef){
@@ -56,7 +54,7 @@ function d3Render(svgRef,data,getNote){
     const simulation = d3.forceSimulation()
                         .force("link",linkForce)
                         .force("collision",d3.forceCollide().radius((node) => node.r))
-                        .force("charge", d3.forceManyBody().distanceMax(500).strength(-20))
+                        .force("charge", d3.forceManyBody().distanceMax(100).strength(-10))
                         .force("center", d3.forceCenter(width/2,height/2))
 
     // set the simalation to the data
@@ -97,19 +95,26 @@ function d3Render(svgRef,data,getNote){
     nodes.on('mouseout', normalColors);
     nodes.on('click', (e) => {getNote(e.target.__data__.id)});
 
-    d3.drag().subject(nodes).on("start",started);
-    function started(event) {
-        const circle = d3.select(this).classed("dragging", true);
+    nodes.call(d3.drag().on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended))
 
-        event.on("drag", dragged).on("end", ended);
-
-        function dragged(event, d) {
-            circle.raise().attr("cx", d.x = event.x).attr("cy", d.y = event.y);
-        }
-
-        function ended() {
-            circle.classed("dragging", false);
-        }
+    function dragstarted(event) {
+      // let the simulation run if the event is active
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+    
+    function dragged(event) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+    
+    function dragended(event) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
     }
 
     rendered = true;
