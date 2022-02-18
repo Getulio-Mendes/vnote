@@ -13,10 +13,10 @@ const styles = {
 function Actions(props){
     return (
         <div id="actions">
-            <button onClick={props.createNote}>
+            <button onClick={() => props.displayModal("create")}>
                 <img src={filePlus}></img>
             </button>
-            <button onClick={props.createFolder}>
+            <button onClick={() => props.displayModal("create",0,true)}>
                 <img src={folderPlus}></img>
             </button>
             <button onClick={props.goBack}>

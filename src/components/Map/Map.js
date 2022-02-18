@@ -1,4 +1,3 @@
-import { svg } from "d3";
 import React, {useEffect, useRef} from "react";
 import d3Render from "./d3Logic";
 import svgPlanning from "./Planning.js"

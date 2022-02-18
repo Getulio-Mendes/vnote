@@ -1,0 +1,2 @@
+Modal: Create subcomponent for notes opt
+Notes color, separator, move notes

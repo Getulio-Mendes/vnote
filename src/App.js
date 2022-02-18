@@ -3,7 +3,8 @@ import Note from "./components/Note"
 import Form from "./components/Form";
 import Editor from "./components/Editor";
 import Search from "./components/Search";
-import Map from "./components/Map";
+import Map from "./components/Map/Map";
+import Modal from "./components/Modal/Modal";
 import Actions from "./components/Actions";
 import './components/styles.css';
 
@@ -17,7 +18,8 @@ class App extends React.Component{
             content: "Note Content",
             id: 0,
             title: "New Note",
-            map: false
+            map: false,
+            modal: false
         };
 
         this.deleteNote = this.deleteNote.bind(this);
@@ -32,18 +34,28 @@ class App extends React.Component{
         this.updateContent = this.updateContent.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
         this.actvateMap = this.actvateMap.bind(this);
+        this.displayModal = this.displayModal.bind(this);
     }
 
     actvateMap(){
         this.setState({map:!this.state.map});
     }
 
-    createNote() {
-        window.sqlite.createNote("New Note",this.state.dir);
+    displayModal(opt,id,folder){
+        if(opt == false){
+            this.setState({ modal: false, id:0 });
+        }
+        else{
+            this.setState({ modal: { opt, id, folder } });
+        }
+    }
+
+    createNote(title) {
+        window.sqlite.createNote(title,this.state.dir);
         this.setState({ nodes: this.state.nodes + 1 });
     }
-    createFolder() {
-        window.sqlite.createFolder("New Folder",this.state.dir);
+    createFolder(title) {
+        window.sqlite.createFolder(title,this.state.dir);
         this.setState({ nodes: this.state.nodes + 1 });
     }
     getNote(id){
@@ -108,14 +120,19 @@ class App extends React.Component{
         var list = window.sqlite.all("SELECT * FROM test WHERE dir = ?",this.state.dir);
         return (
             <>
+                {this.state.modal && 
+                    <Modal displayModal={this.displayModal} modalOpt={this.state.modal}
+                    createNote={this.createNote} createFolder={this.createFolder}
+                    deleteNote={this.deleteNote} deleteFolder={this.deleteFolder}/>
+                }
                 <Search search={this.search} getNote={this.getNote}/>
                 <div id="Path">{this.state.path}</div>
 
                 {!this.state.map &&
                 <div className="noteList">
                     {list.map((note) => {
-                       return <Note key={note.id} id={note.id} title={note.title} folder={note.folder}
-                              deleteNote={this.deleteNote} deleteFolder={this.deleteFolder} getNote={this.getNote} getDir={this.getDir}/>
+                       return <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
+                               getNote={this.getNote} getDir={this.getDir}/>
                     })}
                 </div>
                 }
@@ -124,8 +141,7 @@ class App extends React.Component{
                     <Map getNote={this.getNote} getMap={this.getMap} nodeCount={this.state.nodes}/>
                 }
 
-                <Actions createFolder={this.createFolder} createNote={this.createNote}
-                         actvateMap={this.actvateMap} goBack={this.goBack}/>
+                <Actions displayModal={this.displayModal} actvateMap={this.actvateMap} goBack={this.goBack}/>
 
                 {this.state.id != 0 && 
                     <>

@@ -13,53 +13,6 @@ body{
     margin: auto;
 }
 
-.noteList{
-    background-color: #666;
-    color: white;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 0;
-    
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(7rem,1fr));
-    grid-gap: 0px 10px;
-}
-
-.note, .folder{
-    background-color: bisque;
-    color:black;
-    border: 1px black solid;
-
-    min-width: 8rem;
-    min-height: 2.5rem;
-    max-width: 250px;
-    max-height: 100px;
-
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-    display: flex;
-    justify-content: space-between;
-}
-
-.folder{
-    border: 1px solid red;
-}
-
-span{
-    overflow: hidden;
-    text-align: center;
-    text-overflow: ellipsis;
-}
-
-.icon{
-    width: 1rem;
-    height: 1rem;
-    margin-left: 3px;
-    margin-top: 2px;
-    margin-right: 3px;
-}
-
 #actions{
     display: flex;
     justify-content: space-between;
@@ -79,63 +32,6 @@ span{
     margin: 6px;
 }
 
-#searchBar{
-    background-color: antiquewhite;
-    width: 100%;
-    height: 2rem;
-    margin-bottom: 2rem;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-#searchField{
-    background-color: antiquewhite;
-    width: 100%;
-    margin: 0;
-    border: 0;
-    padding: 0;
-    height: 2rem;
-}
-
-#search{
-    width: 1.3rem;
-    height: 1.3rem;
-}
-
-.searchResult{
-    background-color: antiquewhite;
-    border-bottom: 1px solid grey;
-
-    border-radius: 0;
-    width: 100%;
-    padding: 0.5rem;
-    height: 1.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-#searchContainer{
-    position: absolute;
-    width: calc(100% - 16px);
-    max-width: 800px;
-    max-height: 600px;
-    overflow-y: scroll;
-    top: 2.5rem;
-    z-index: 1;
-    
-    border-radius: 0;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-}
-
 #Path{
     background-color: antiquewhite;
     border-radius: 2px;
@@ -146,12 +42,4 @@ span{
 svg{
     border-radius: 0;
     cursor: move;
-}
-
-.node{
-    cursor: pointer;
-}
-
-.dragging{
-    fill: aqua;
 }

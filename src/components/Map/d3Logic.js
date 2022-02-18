@@ -49,12 +49,12 @@ function d3Render(svgRef,data,getNote){
                              .attr("id",(node) => node.id);
 
     // create the link force based on the id of the nodes
-    const linkForce = d3.forceLink().id(link => link.id).strength(0.05);
+    const linkForce = d3.forceLink().id(link => link.id).strength(0.2);
     // define the force simulation 
     const simulation = d3.forceSimulation()
                         .force("link",linkForce)
                         .force("collision",d3.forceCollide().radius((node) => node.r))
-                        .force("charge", d3.forceManyBody().distanceMax(100).strength(-10))
+                        .force("charge", d3.forceManyBody().distanceMax(100).strength(-50))
                         .force("center", d3.forceCenter(width/2,height/2))
 
     // set the simalation to the data

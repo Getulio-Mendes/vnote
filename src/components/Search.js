@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import search from "../img/search.svg";
+import "./Search.css";
 
 function Search(props){
 
