@@ -15,8 +15,12 @@ function Note(props){
         className = "note"
     }
 
+    var borderColor = {
+        borderColor: `${props.color}`
+    }
+
     return (
-        <div className={className} onClick={clickHandler}>
+        <div className={className} onClick={clickHandler} style={borderColor}>
             <img src={options} className="icon" onClick={(e) => {
                     e.stopPropagation();
                     props.displayModal("options",props.id,props.folder)

@@ -33,6 +33,7 @@ class App extends React.Component{
         this.search = this.search.bind(this);
         this.updateContent = this.updateContent.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
+        this.updateColor = this.updateColor.bind(this);
         this.actvateMap = this.actvateMap.bind(this);
         this.displayModal = this.displayModal.bind(this);
     }
@@ -103,6 +104,10 @@ class App extends React.Component{
             this.setState({title});
         }
     }
+    updateColor(color,id){
+        window.sqlite.updateColor(color,id);
+        this.forceUpdate();
+    }
     deleteNote(id){
         window.sqlite.deleteNote(id);
         this.setState({ nodes: this.state.nodes - 1 });
@@ -122,7 +127,7 @@ class App extends React.Component{
             <>
                 {this.state.modal && 
                     <Modal displayModal={this.displayModal} modalOpt={this.state.modal}
-                    createNote={this.createNote} createFolder={this.createFolder}
+                    createNote={this.createNote} createFolder={this.createFolder} updateColor={this.updateColor}
                     deleteNote={this.deleteNote} deleteFolder={this.deleteFolder}/>
                 }
                 <Search search={this.search} getNote={this.getNote}/>
@@ -132,7 +137,7 @@ class App extends React.Component{
                 <div className="noteList">
                     {list.map((note) => {
                        return <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
-                               getNote={this.getNote} getDir={this.getDir}/>
+                               getNote={this.getNote} getDir={this.getDir} color={note.color}/>
                     })}
                 </div>
                 }

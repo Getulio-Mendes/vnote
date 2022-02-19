@@ -14,7 +14,7 @@ const styles = {
 
 function Modal(props){
     
-    var [text,setText] = useState("");
+    var [text,setText] = useState("New node");
 
     return (
         <div id="modal" onClick={(e) => {
@@ -24,22 +24,22 @@ function Modal(props){
         }}>
             {props.modalOpt.opt == "options"
                 ? <Options deleteNote={props.deleteNote} deleteFolder={props.deleteFolder}
-                    displayModal={props.displayModal} id={props.modalOpt.id}></Options>
+                    displayModal={props.displayModal} id={props.modalOpt.id} updateColor={props.updateColor}></Options>
 
                 : <div id="modalContent">
                     <h3>Create Node</h3>
                     <input type="text" value={text} placeholder="Title" onChange={(e) => setText(e.target.value)}></input>
-                    <div className="modalBtns">
+                    <div>
                         
-                    <button className="modalBtn" style={styles.cancel} onClick={() => props.displayModal(false)}>Cancel</button>
-                    <button className="modalBtn" style={styles.accept} onClick={
-                        props.modalOpt.folder ? () => {props.createFolder(text)
-                                                      props.displayModal(false)}
-                                              : () => {props.createNote(text)
-                                                      props.displayModal(false)}
-                    }>Create</button>
+                        <button className="modalBtn" style={styles.cancel} onClick={() => props.displayModal(false)}>Cancel</button>
+                        <button className="modalBtn" style={styles.accept} onClick={
+                            props.modalOpt.folder ? () => {props.createFolder(text)
+                                                          props.displayModal(false)}
+                                                  : () => {props.createNote(text)
+                                                          props.displayModal(false)}}>
+                        Create</button>
                     </div>
-                </div>
+                  </div>
             }
         </div>
     )

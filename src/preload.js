@@ -6,6 +6,7 @@ var stmt = db.prepare(`CREATE TABLE IF NOT EXISTS test(
                       id INTEGER PRIMARY KEY NOT NULL,
                       title TEXT NOT NULL DEFAULT 'New Note',
                       text TEXT DEFAULT 'Note Content',
+                      color TEXT DEFAULT '#000',
                       date DATE DEFAULT (DATETIME('now','localtime')),
                       dir TEXT DEFAULT '0',
                       folder BOOLEAN DEFAULT false
@@ -73,5 +74,9 @@ contextBridge.exposeInMainWorld('sqlite',{
   updateTitle(title,id){
     let stmt = db.prepare("UPDATE test SET title = ? WHERE id=?");
     return stmt.run(title, id);
+  },
+  updateColor(color,id){
+    let stmt = db.prepare("UPDATE test SET color = ? WHERE id=?");
+    return stmt.run(color,id)
   }
 });

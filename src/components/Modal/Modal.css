@@ -35,7 +35,7 @@
     border: none;
 }
 
-#modalContent button{
+.modalBtn{
     width: 50%;
     height: 2rem;
     font-size: 1.1rem;
@@ -46,6 +46,23 @@
     border: none;
 }
 
-#modalContent button:hover{
+.modalBtn:hover{
     border: 1px solid bisque;
+}
+
+#optionsModal{
+    background-color: antiquewhite;
+    color: black;
+    width: 60%;
+    height: 30%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.optionBtn{
+    background-color: bisque;
+    width: 7rem;
+    height: 3rem;
 }
