@@ -14,7 +14,7 @@ function Map(props){
     },[props.nodeCount])
 
     return (
-        <svg ref={svgRef} viewBox="150 0 300 300"></svg>
+        <svg id="map" ref={svgRef} viewBox="150 0 300 300"></svg>
     )
 }
 

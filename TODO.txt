@@ -1,2 +1,2 @@
-Modal: 
-Notes color, separator, move notes
+# Proper color picker
+separator, move notes

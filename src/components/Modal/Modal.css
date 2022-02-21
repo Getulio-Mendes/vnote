@@ -66,3 +66,14 @@
     width: 7rem;
     height: 3rem;
 }
+
+#picker {
+    overflow: visible;
+    z-index: 33;
+}
+
+.rotate{
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(90deg);
+}
