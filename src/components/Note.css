@@ -13,7 +13,7 @@
 .note, .folder{
     background-color: bisque;
     color:black;
-    border: 2px black solid;
+    border: 1px solid black;
 
     min-width: 8rem;
     min-height: 2.5rem;
@@ -27,8 +27,15 @@
     justify-content: flex-start;
 }
 
+.separator{
+    width: 100%;
+    height: 3px;
+    background-color: bisque;
+    grid-column: 1/7;
+}
+
 .folder{
-    border: 1px solid red;
+    box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.705);
 }
 
 span{

@@ -19,6 +19,10 @@ function Actions(props){
             <button onClick={() => props.displayModal("create",0,true)}>
                 <img src={folderPlus}></img>
             </button>
+            <button onClick={props.createSeparator}>
+                Separator
+            </button>
+
             <button onClick={props.goBack}>
                 <img src={arrowLeft}></img>
             </button>

@@ -19,7 +19,7 @@ function Options(props){
 
     function displayPicker(){
         if(picker == null){
-            setPicker(<ColorPicker/>);
+            setPicker(true);
         }
         else{
             setPicker();
@@ -35,12 +35,15 @@ function Options(props){
                     Delete
                 </button>
 
-                <button className="optionBtn" onClick={() => displayPicker()}>
+                <button className="optionBtn" onClick={displayPicker}>
                     <img src={palette}></img>
                     <br/>
                     Change color
                 </button>
-                {picker}
+
+                {picker &&
+                <ColorPicker updateColor={props.updateColor} id={props.id} displayModal={props.displayModal}/>
+                }
             </>
         </div>
     )

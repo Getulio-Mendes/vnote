@@ -1,13 +1,13 @@
 *{
     box-sizing: border-box;
     border-radius: 6px;
+    text-overflow: ellipsis;
 }
 
 body{
     background-color: #333;
     overflow: hidden;
 }
-
 #root{
     max-width: 800px;
     margin: auto;

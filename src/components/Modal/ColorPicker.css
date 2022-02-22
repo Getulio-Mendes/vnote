@@ -1,0 +1,26 @@
+#picker {
+    overflow: visible;
+    z-index: 33;
+}
+
+#colorPicker{
+    background-color: antiquewhite;
+    width: 200px;
+    height: calc(200px + 3rem);
+
+    position: absolute;
+    left: calc(50% - 200);
+    top: calc(50% - 200);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#colorPicker  button{
+    width: 4rem;
+    height: 2.5rem;
+    border: 1px solid black;
+    background-color: bisque;
+}

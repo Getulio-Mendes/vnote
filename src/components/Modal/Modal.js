@@ -17,8 +17,8 @@ function Modal(props){
     var [text,setText] = useState("New node");
 
     return (
-        <div id="modal" onClick={(e) => {
-            if (e.target.id == "modal") {
+        <div className="modal" onClick={(e) => {
+            if (e.target.className == "modal") {
                 props.displayModal(false)
             }
         }}>

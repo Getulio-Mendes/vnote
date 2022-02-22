@@ -9,7 +9,8 @@ var stmt = db.prepare(`CREATE TABLE IF NOT EXISTS test(
                       color TEXT DEFAULT '#000',
                       date DATE DEFAULT (DATETIME('now','localtime')),
                       dir TEXT DEFAULT '0',
-                      folder BOOLEAN DEFAULT false
+                      folder BOOLEAN DEFAULT false,
+                      separator BOOLEAN DEFAULT false
                       )`)
 stmt.run();
 
@@ -25,6 +26,10 @@ contextBridge.exposeInMainWorld('sqlite',{
   createFolder(title,dir) {
     let stmt = db.prepare("INSERT INTO test (title,dir,folder) VALUES (?,?,true)");
     return stmt.run(title,dir);
+  },
+  createSeparator() {
+    let stmt = db.prepare("INSERT INTO test (separator) VALUES (true)");
+    return stmt.run();
   },
   getNote(id) {
     let stmt = db.prepare("SELECT text,title FROM test WHERE id = ?");
@@ -76,6 +81,7 @@ contextBridge.exposeInMainWorld('sqlite',{
     return stmt.run(title, id);
   },
   updateColor(color,id){
+    color = `rgb(${color[0]},${color[1]},${color[2]})`;
     let stmt = db.prepare("UPDATE test SET color = ? WHERE id=?");
     return stmt.run(color,id)
   }

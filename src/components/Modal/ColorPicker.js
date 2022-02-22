@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import DrawGradient from "./DrawGradient";
+import './ColorPicker.css';
 
-function ColorPicker(){
+function ColorPicker(props){
 
     const svgRef = useRef();
     const circleRef = useRef();
+    var timer = useRef();
+    var color = useRef();
 
     function eventHandler(e){
         window.addEventListener("mousemove",mouseMove);
@@ -21,18 +24,22 @@ function ColorPicker(){
         let rect = svgRef.current.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
-        circleRef.current.setAttribute("cx",x);
-        circleRef.current.setAttribute("cy",y);
-        getColor(x,y)
+        if(x <= 200 && y <= 200){
+            if(x >= 0 && y >= 0){
+                circleRef.current.setAttribute("cx", x);
+                circleRef.current.setAttribute("cy", y);
+            }
+        }
+        
+        clearTimeout(timer.current);
+        timer.current = setTimeout(() => getColor(x,y),200);
     }
 
     // convert the svg to a canvas and get the pixel information
     function getColor(x,y){
-        var color;
 
         var xml = new XMLSerializer().serializeToString(svgRef.current);
-        var svg64 = window.btoa(xml);
-        var image64 = 'data:image/svg+xml;base64,' + svg64;
+        var image64 = 'data:image/svg+xml;base64,' + window.btoa(xml);
 
         let image = new Image();
         image.onload = () => {
@@ -45,10 +52,9 @@ function ColorPicker(){
 
             let context = canvas.getContext('2d');
             context.drawImage(image, 0, 0, width, height);
-            color = context.getImageData(x,y,1,1).data;
+            color.current = context.getImageData(x,y,1,1).data;
         }
         image.src = image64;
-        return color;
     }
 
     useEffect(() => {
@@ -56,9 +62,19 @@ function ColorPicker(){
     })
 
     return(
-        <svg id="picker" ref={svgRef} width="200" height="200" onMouseDown={eventHandler}>
-            <circle ref={circleRef} r="5" fill="none" stroke="black" cx="100" cy="100"></circle>
-        </svg>
+        <div className="modal">
+        <div id="colorPicker">
+            <svg id="picker" ref={svgRef} width="200" height="200" onMouseDown={eventHandler}>
+                <circle ref={circleRef} r="5" fill="none" stroke="black" cx="100" cy="100"></circle>
+            </svg>
+            <button onClick={
+                () => {
+                    props.updateColor(color.current,props.id);
+                    props.displayModal(false);
+                }
+            }>Select Color</button>
+        </div>
+        </div>
     )
 }
 

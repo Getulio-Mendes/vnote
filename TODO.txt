@@ -1,2 +1,1 @@
-# Proper color picker
 separator, move notes

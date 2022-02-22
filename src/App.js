@@ -26,6 +26,7 @@ class App extends React.Component{
         this.deleteFolder = this.deleteFolder.bind(this);
         this.createNote = this.createNote.bind(this);
         this.createFolder = this.createFolder.bind(this);
+        this.createSeparator = this.createSeparator.bind(this);
         this.getNote = this.getNote.bind(this);
         this.getDir = this.getDir.bind(this);
         this.getMap = this.getMap.bind(this);
@@ -57,6 +58,10 @@ class App extends React.Component{
     }
     createFolder(title) {
         window.sqlite.createFolder(title,this.state.dir);
+        this.setState({ nodes: this.state.nodes + 1 });
+    }
+    createSeparator() {
+        window.sqlite.createSeparator();
         this.setState({ nodes: this.state.nodes + 1 });
     }
     getNote(id){
@@ -137,7 +142,7 @@ class App extends React.Component{
                 <div className="noteList">
                     {list.map((note) => {
                        return <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
-                               getNote={this.getNote} getDir={this.getDir} color={note.color}/>
+                               getNote={this.getNote} getDir={this.getDir} color={note.color} separator={note.separator}/>
                     })}
                 </div>
                 }
@@ -146,7 +151,7 @@ class App extends React.Component{
                     <Map getNote={this.getNote} getMap={this.getMap} nodeCount={this.state.nodes}/>
                 }
 
-                <Actions displayModal={this.displayModal} actvateMap={this.actvateMap} goBack={this.goBack}/>
+                <Actions displayModal={this.displayModal} createSeparator={this.createSeparator} actvateMap={this.actvateMap} goBack={this.goBack}/>
 
                 {this.state.id != 0 && 
                     <>

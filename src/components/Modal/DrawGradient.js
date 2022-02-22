@@ -94,7 +94,7 @@ function DrawGradient(svgRef){
     // use the entire svg
     gradRect.setAttribute('width', '100%');
     gradRect.setAttribute('height', '100%');
-    gradRect.setAttribute('class', 'rotate');
+    gradRect.setAttribute('transform', 'rotate(90,100,100)');
     blackWhiteRect.setAttribute('width', '100%');
     blackWhiteRect.setAttribute('height', '100%');
 
