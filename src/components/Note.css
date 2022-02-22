@@ -6,7 +6,7 @@
     border-radius: 0;
     
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(7rem,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(8rem,1fr));
     grid-gap: 0px 10px;
 }
 
@@ -25,13 +25,13 @@
 
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
 
 .separator{
     width: 100%;
+    grid-column: 1/-1;
     height: 3px;
-    background-color: bisque;
-    grid-column: 1/7;
 }
 
 .folder{

@@ -9,6 +9,7 @@ var stmt = db.prepare(`CREATE TABLE IF NOT EXISTS test(
                       color TEXT DEFAULT '#000',
                       date DATE DEFAULT (DATETIME('now','localtime')),
                       dir TEXT DEFAULT '0',
+                      pos INT DEFAULT 0,
                       folder BOOLEAN DEFAULT false,
                       separator BOOLEAN DEFAULT false
                       )`)
@@ -19,17 +20,21 @@ contextBridge.exposeInMainWorld('sqlite',{
     let stmt = db.prepare(str);
     return stmt.all(dir);
   },
-  createNote(title,dir) {
-    let stmt = db.prepare("INSERT INTO test (title,dir) VALUES (?,?)");
-    return stmt.run(title,dir);
+  createNote(title,dir,pos) {
+    let stmt = db.prepare("INSERT INTO test (title,dir,pos) VALUES (?,?,?)");
+    return stmt.run(title,dir,pos);
   },
-  createFolder(title,dir) {
-    let stmt = db.prepare("INSERT INTO test (title,dir,folder) VALUES (?,?,true)");
-    return stmt.run(title,dir);
+  createFolder(title,dir,pos) {
+    let stmt = db.prepare("INSERT INTO test (title,dir,folder,pos) VALUES (?,?,true,?)");
+    return stmt.run(title,dir,pos);
   },
-  createSeparator() {
-    let stmt = db.prepare("INSERT INTO test (separator) VALUES (true)");
-    return stmt.run();
+  createSeparator(pos) {
+    let stmt = db.prepare("INSERT INTO test (title,text,color,separator,pos) VALUES ('separator','','bisque',true,?)");
+    return stmt.run(pos);
+  },
+  getNumberOfNodes(dir){
+    let stmt = db.prepare("SELECT COUNT(id) as nodes FROM test WHERE dir=?");
+    return stmt.get(dir).nodes;
   },
   getNote(id) {
     let stmt = db.prepare("SELECT text,title FROM test WHERE id = ?");

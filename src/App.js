@@ -12,7 +12,7 @@ class App extends React.Component{
     constructor(props){
         super(props);
         this.state= { 
-            nodes: 0,
+            nodes: window.sqlite.getNumberOfNodes('0'),
             dir: "0",
             path: ":",
             content: "Note Content",
@@ -27,6 +27,7 @@ class App extends React.Component{
         this.createNote = this.createNote.bind(this);
         this.createFolder = this.createFolder.bind(this);
         this.createSeparator = this.createSeparator.bind(this);
+        this.getNoteList = this.getNoteList.bind(this);
         this.getNote = this.getNote.bind(this);
         this.getDir = this.getDir.bind(this);
         this.getMap = this.getMap.bind(this);
@@ -53,15 +54,15 @@ class App extends React.Component{
     }
 
     createNote(title) {
-        window.sqlite.createNote(title,this.state.dir);
+        window.sqlite.createNote(title,this.state.dir,this.state.nodes);
         this.setState({ nodes: this.state.nodes + 1 });
     }
     createFolder(title) {
-        window.sqlite.createFolder(title,this.state.dir);
+        window.sqlite.createFolder(title,this.state.dir,this.state.nodes);
         this.setState({ nodes: this.state.nodes + 1 });
     }
     createSeparator() {
-        window.sqlite.createSeparator();
+        window.sqlite.createSeparator(this.state.nodes);
         this.setState({ nodes: this.state.nodes + 1 });
     }
     getNote(id){
@@ -80,7 +81,8 @@ class App extends React.Component{
     getDir(id,title){
         let newDir = this.state.dir + `/${id}`;
         let newPath = this.state.path + `/${title}`;
-        this.setState({dir:newDir,path:newPath});
+        let nodes = window.sqlite.getNumberOfNodes(newDir);
+        this.setState({dir:newDir,path:newPath,nodes:nodes});
     }
     getMap(){
         return window.sqlite.getMap();
@@ -126,6 +128,23 @@ class App extends React.Component{
         return list;
     }
 
+    getNoteList(list){
+        let newList = [];
+
+        for(let i=0; i < list.length;i++){
+            for (let j=0; j < list.length; j++) {
+                if (i == list[j].pos) {
+                    let note = list[j];
+                    newList.push(
+                        <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
+                            getNote={this.getNote} getDir={this.getDir} color={note.color} separator={note.separator} />
+                    )
+                }
+            }
+        }
+        return newList; 
+    }
+
     render() {
         var list = window.sqlite.all("SELECT * FROM test WHERE dir = ?",this.state.dir);
         return (
@@ -140,10 +159,7 @@ class App extends React.Component{
 
                 {!this.state.map &&
                 <div className="noteList">
-                    {list.map((note) => {
-                       return <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
-                               getNote={this.getNote} getDir={this.getDir} color={note.color} separator={note.separator}/>
-                    })}
+                  {this.getNoteList(list)}
                 </div>
                 }
 

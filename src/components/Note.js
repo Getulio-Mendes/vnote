@@ -5,6 +5,10 @@ import "./Note.css";
 
 function Note(props){
     
+    let optionHandler = function(e){
+        e.stopPropagation();
+        props.displayModal("options", props.id)
+    }
     let clickHandler;
     let className;
     let color;
@@ -18,21 +22,24 @@ function Note(props){
     else {
         clickHandler = () => props.getNote(props.id);
         className = "note";
-        color = {
-            borderColor: `${props.color}`
-        };
+        if(props.separator){
+            color = {
+                backgroundColor: `${props.color}`
+            }
+        }
+        else{
+            color = {
+                borderColor: `${props.color}`
+            };
+        }
     }
 
     return (
         <>
         {props.separator == true
-            ? <div className="separator"></div>
+            ? <div className="separator" onClick={optionHandler} style={color}></div>
             : <div className={className} onClick={clickHandler} style={color}>
-                <img src={options} className="icon" onClick={(e) => {
-                    e.stopPropagation();
-                    props.displayModal("options", props.id, props.folder)
-                }}
-                />
+                <img src={options} className="icon" onClick={optionHandler}/>
 
                 <span>{props.title}</span>
               </div>

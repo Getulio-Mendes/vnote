@@ -2,6 +2,7 @@ import React from "react";
 import arrowLeft from "../img/arrow-left.svg";
 import folderPlus from "../img/folder-plus.svg";
 import filePlus from "../img/file-plus.svg";
+import minus from "../img/minus.svg";
 import map from "../img/share-2.svg";
 
 const styles = {
@@ -20,7 +21,7 @@ function Actions(props){
                 <img src={folderPlus}></img>
             </button>
             <button onClick={props.createSeparator}>
-                Separator
+                <img src={minus}></img>
             </button>
 
             <button onClick={props.goBack}>
