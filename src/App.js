@@ -36,6 +36,7 @@ class App extends React.Component{
         this.updateContent = this.updateContent.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
         this.updateColor = this.updateColor.bind(this);
+        this.moveNode = this.moveNode.bind(this);
         this.actvateMap = this.actvateMap.bind(this);
         this.displayModal = this.displayModal.bind(this);
     }
@@ -128,6 +129,11 @@ class App extends React.Component{
         return list;
     }
 
+    moveNode(pos,id,oldPos){
+       window.sqlite.moveNode(pos,id,oldPos);
+       this.forceUpdate();
+    }
+
     getNoteList(list){
         let newList = [];
 
@@ -137,7 +143,7 @@ class App extends React.Component{
                     let note = list[j];
                     newList.push(
                         <Note key={note.id} id={note.id} title={note.title} folder={note.folder} displayModal={this.displayModal}
-                            getNote={this.getNote} getDir={this.getDir} color={note.color} separator={note.separator} />
+                            getNote={this.getNote} getDir={this.getDir} moveNode={this.moveNode} color={note.color} separator={note.separator} />
                     )
                 }
             }

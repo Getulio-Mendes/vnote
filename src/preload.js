@@ -89,5 +89,19 @@ contextBridge.exposeInMainWorld('sqlite',{
     color = `rgb(${color[0]},${color[1]},${color[2]})`;
     let stmt = db.prepare("UPDATE test SET color = ? WHERE id=?");
     return stmt.run(color,id)
+  },
+  moveNode(pos,id,oldPos){
+    let stmt = db.prepare("UPDATE test SET pos = ? WHERE id=?");
+    stmt.run(pos,id);
+
+    if(pos < oldPos){
+      stmt = db.prepare("UPDATE test SET pos=pos+1 WHERE pos >= ? AND id != ? AND pos < ?");
+      stmt.run(pos, id, oldPos);
+    }
+    else{
+      stmt = db.prepare("UPDATE test SET pos=pos-1 WHERE pos <= ? AND id != ? AND pos > ?");
+      stmt.run(pos, id, oldPos);
+    }
+
   }
 });

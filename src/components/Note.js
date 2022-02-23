@@ -21,11 +21,12 @@ function Note(props){
         setDrag(true);
 
         // remove all the handler at the end
-        let removeEvent = () => {
+        let removeEvent = (e) => {
+            e.stopImmediatePropagation();
             window.removeEventListener("mousemove", moveHandler)
             window.removeEventListener("mouseup",removeEvent);
-            setDrag(false);
             noteRef.current.setAttribute("class", "note");
+            setDrag(false);
         }
         window.addEventListener("mouseup",removeEvent)
     }
@@ -33,6 +34,34 @@ function Note(props){
     function moveHandler(e){
         noteRef.current.style.top = `calc(${e.clientY}px - 1rem)`;
         noteRef.current.style.left = `calc(${e.clientX}px - 4rem)`;
+
+        let nodes = document.querySelector(".noteList").childNodes;
+        // find old position
+        let pos;
+        nodes.forEach((node,i) => {
+            if(node == noteRef.current){
+                pos = i;
+            }
+        })
+        
+        // detect collisions
+        for(let i=0; i < nodes.length;i++){
+            if(nodes[i].className != "placeholder" && i != pos){
+                let rect = nodes[i].getBoundingClientRect();
+                let { x, y } = rect;
+                rect = noteRef.current.getBoundingClientRect();
+                let nx = rect.x;
+                let ny = rect.y;
+
+                if (nx + noteRef.current.clientWidth >= x && nx <= x + nodes[i].clientWidth) {
+                    if (y + nodes[i].clientHeight >= ny && y <= ny + noteRef.current.clientHeight) {
+                        props.moveNode(i, props.id,pos);
+                        window.removeEventListener("mousemove", moveHandler)
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     function optionHandler (e){
@@ -70,9 +99,10 @@ function Note(props){
         {props.separator == true
             ? <div className="separator" onClick={optionHandler} style={color} onMouseDown={downHandler} ref={noteRef}></div>
             : <div className={className} onClick={clickHandler} onMouseDown={downHandler} style={color} ref={noteRef}>
-                <img src={options} className="icon" onClick={optionHandler}/>
+                <img src={options} className="icon" onClick={optionHandler} onMouseDown={(e) => e.stopPropagation()}/>
 
                 <span>{props.title}</span>
+                <div className="icon"></div>
               </div>
         }
         {placeholder}

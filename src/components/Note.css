@@ -29,8 +29,7 @@
     margin-bottom: 10px;
 
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .dragged{
@@ -61,8 +60,6 @@
 
 span{
     overflow: hidden;
-    margin-left: 0.8rem;
-    text-align: center;
     text-overflow: ellipsis;
 }
 
