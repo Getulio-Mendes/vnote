@@ -8,6 +8,11 @@
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(8rem,1fr));
     grid-gap: 0px 10px;
+
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
 }
 
 .note, .folder{
@@ -26,6 +31,22 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+}
+
+.dragged{
+    position: absolute;
+    z-index: 3;
+    background-color: antiquewhite;
+}
+
+.placeholder{
+    min-width: 8rem;
+    min-height: 2.5rem;
+    max-width: 250px;
+    max-height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid gold;
 }
 
 .separator{
@@ -55,8 +76,4 @@ span{
 
 .node{
     cursor: pointer;
-}
-
-.dragging{
-    fill: aqua;
 }
