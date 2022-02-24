@@ -130,7 +130,13 @@ class App extends React.Component{
     }
 
     moveNode(pos,id,oldPos){
-       window.sqlite.moveNode(pos,id,oldPos);
+       // account for placeholder
+       if(pos < oldPos){
+           window.sqlite.moveNode(pos, id, oldPos);
+       }
+       else{
+           window.sqlite.moveNode(pos-1, id, oldPos);
+       }
        this.forceUpdate();
     }
 

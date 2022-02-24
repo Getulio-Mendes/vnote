@@ -6,6 +6,7 @@ import "./Note.css";
 function Note(props){
 
     const noteRef = useRef();
+    const dragged = useRef();
     var [drag,setDrag] = useState();
     let clickHandler;
     let className;
@@ -26,6 +27,7 @@ function Note(props){
             window.removeEventListener("mousemove", moveHandler)
             window.removeEventListener("mouseup",removeEvent);
             noteRef.current.setAttribute("class", "note");
+            dragged.current = -1;
             setDrag(false);
         }
         window.addEventListener("mouseup",removeEvent)
@@ -55,8 +57,11 @@ function Note(props){
 
                 if (nx + noteRef.current.clientWidth >= x && nx <= x + nodes[i].clientWidth) {
                     if (y + nodes[i].clientHeight >= ny && y <= ny + noteRef.current.clientHeight) {
-                        props.moveNode(i, props.id,pos);
-                        window.removeEventListener("mousemove", moveHandler)
+                        // only move if alredy not moved
+                        if(dragged.current != i){
+                            props.moveNode(i, props.id, pos);
+                            dragged.current = i;
+                        }
                         break;
                     }
                 }

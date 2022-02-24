@@ -92,15 +92,15 @@ contextBridge.exposeInMainWorld('sqlite',{
   },
   moveNode(pos,id,oldPos){
     let stmt = db.prepare("UPDATE test SET pos = ? WHERE id=?");
-    stmt.run(pos,id);
+    stmt.run(pos, id);
 
     if(pos < oldPos){
       stmt = db.prepare("UPDATE test SET pos=pos+1 WHERE pos >= ? AND id != ? AND pos < ?");
       stmt.run(pos, id, oldPos);
     }
     else{
-      stmt = db.prepare("UPDATE test SET pos=pos-1 WHERE pos <= ? AND id != ? AND pos > ?");
-      stmt.run(pos, id, oldPos);
+      stmt = db.prepare("UPDATE test SET pos=pos-1 WHERE pos <= ? AND id != ? AND pos > 0");
+      stmt.run(pos, id);
     }
 
   }
